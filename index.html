@@ -520,35 +520,49 @@
             }
         });
         
-        // 模拟保存到Google表格
+        // Replace the mock saveToGoogleSheet function with this:
         async function saveToGoogleSheet(expense) {
-            // 实际应用中，这里会是Google Apps Script的URL
-            const googleSheetUrl = 'https://script.google.com/macros/s/AKfycbyq2XxQr6YlXKt5d5QK8JZJ7RcJZJZJZJZJZJZJZJZJZJZJZ/exec';
-            
-            // 模拟API调用延迟
-            return new Promise(resolve => {
-                setTimeout(() => {
-                    console.log('Expense saved to Google Sheet:', expense);
-                    resolve();
-                }, 800);
-            });
-            
-            // 实际实现代码（注释掉，因为没有实际的Google表格端点）
-            /*
-            const response = await fetch(googleSheetUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(expense),
-            });
-            
-            if (!response.ok) {
-                throw new Error('Failed to save to Google Sheet');
-            }
-            
-            return response.json();
-            */
+          const googleSheetUrl = "YOUR_WEB_APP_URL"; // Paste your Web App URL here
+          
+          const response = await fetch(googleSheetUrl, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(expense)
+          });
+          
+          const result = await response.json();
+          if (result.status !== "success") {
+            throw new Error("Failed to save to Google Sheet");
+          }
+        }
+        
+        // Add a new function to fetch expenses from Google Sheet:
+        async function fetchExpensesFromGoogleSheet() {
+          const googleSheetUrl = "YOUR_WEB_APP_URL"; // Same URL as above
+          
+          const response = await fetch(googleSheetUrl);
+          const expenses = await response.json();
+          
+          // Sort expenses by date (newest first)
+          return expenses.sort((a, b) => new Date(b.date) - new Date(a.date));
+        }
+        
+        // Update the init function to load from Google Sheet instead of local storage:
+        async function init() {
+          try {
+            // Load expenses from Google Sheet instead of localStorage
+            expenses = await fetchExpensesFromGoogleSheet();
+            renderExpenses();
+            updateStatistics();
+            initChart();
+          } catch (error) {
+            console.error("Error loading expenses:", error);
+            // Fallback to local storage if needed
+            loadExpensesFromLocalStorage();
+            renderExpenses();
+            updateStatistics();
+            initChart();
+          }
         }
         
         // 渲染支出记录
