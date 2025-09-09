@@ -522,7 +522,7 @@
         
         // Replace the mock saveToGoogleSheet function with this:
         async function saveToGoogleSheet(expense) {
-          const googleSheetUrl = "https://script.google.com/macros/s/AKfycbyZtaondeDtXEJ3451VXKVZpD9R1PbdluukDUV6rImZm2eEEuSKQzR3jQwJ4fx2_AsZ/exec"; // Paste your Web App URL here
+          const googleSheetUrl = "https://script.google.com/macros/s/AKfycbzh32exYb89QCTDKevJmF4umgpcbR4yCeIOv4L5DhVpuu9lOEhHByoejQzRuGWJm8vj/exec"; // Paste your Web App URL here
           
           const response = await fetch(googleSheetUrl, {
             method: "POST",
@@ -538,7 +538,7 @@
         
         // Add a new function to fetch expenses from Google Sheet:
         async function fetchExpensesFromGoogleSheet() {
-          const googleSheetUrl = "https://script.google.com/macros/s/AKfycbyZtaondeDtXEJ3451VXKVZpD9R1PbdluukDUV6rImZm2eEEuSKQzR3jQwJ4fx2_AsZ/exec"; // Same URL as above
+          const googleSheetUrl = "https://script.google.com/macros/s/AKfycbzh32exYb89QCTDKevJmF4umgpcbR4yCeIOv4L5DhVpuu9lOEhHByoejQzRuGWJm8vj/exec"; // Same URL as above
           
           const response = await fetch(googleSheetUrl);
           const expenses = await response.json();
